@@ -1,0 +1,79 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'maven'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOL_VERSION
+
+    defaultConfig {
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    implementation "androidx.core:core-ktx:$KTX_VERSION"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    compileOnly "com.github.bumptech.glide:glide:$GLIDE_VERSION"
+    compileOnly "com.squareup.picasso:picasso:$PICASSO_VERSION"
+    compileOnly "com.facebook.fresco:fresco:$FRESCO_VERSION"
+
+    // AEKit
+    compileOnly "com.tencent.aekit:core:$AEKIT_VERSION"
+    compileOnly "com.tencent.aekit:openrender:$AEKIT_VERSION"
+    compileOnly "com.tencent.aekit:plugincore:$AEKIT_VERSION"
+    compileOnly "com.tencent.aekit:filterchain:$AEKIT_VERSION"
+
+}
+
+// 生成sources.jar
+task androidSourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives androidSourcesJar
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: uri('https://mirrors.tencent.com/repository/maven/luckyclover')) {
+            authentication(userName: "kaelma", password: "a3348e6c89f311eaa73f6c92bf3ad140")
+            proxy(host: "127.0.0.1", port: 12639, type: "http")
+        }
+
+        snapshotRepository(url: uri('https://mirrors.tencent.com/repository/maven/luckyclover-snapshots')) {
+            authentication(userName: "kaelma", password: "a3348e6c89f311eaa73f6c92bf3ad140")
+            proxy(host: "127.0.0.1", port: 12639, type: "http")
+        }
+
+        pom.groupId = "com.tencent.luckyclover"
+        pom.artifactId = "clover"
+        pom.version = "$CLOVER_VERSION"
+//        pom.version = "$CLOVER_VERSION-SNAPSHOT"
+        pom.packaging= "aar" // 文件格式，例如jar、aar
+    }
+}

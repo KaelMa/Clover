@@ -1,0 +1,53 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOL_VERSION
+
+    defaultConfig {
+        applicationId "com.tencent.lucky.sample"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:$ANDROIDX_VERSION"
+    implementation "androidx.core:core-ktx:$KTX_VERSION"
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // recyclerview
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    // anko
+    implementation "org.jetbrains.anko:anko:0.10.8"
+
+    // Image-GPUTransform
+    implementation project(':transforms')
+    // glide
+    implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
+    // picasso
+    implementation "com.squareup.picasso:picasso:$PICASSO_VERSION"
+    // fresco
+    implementation "com.facebook.fresco:fresco:$FRESCO_VERSION"
+
+
+}
