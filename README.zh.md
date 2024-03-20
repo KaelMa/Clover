@@ -1,27 +1,25 @@
 # Clover
 
->  [中文文档](README.zh.md)
+Clover是一个离线GPU运行时框架，可以给图片添加各种GPU滤镜效果，像高斯模糊等。Clover适配了常见的图片加载框架，包括了Glide，Picasso，Fresco。用户可以在不改变图片加载用法的同时，仅仅增加一行代码即可给图片加上GPU滤镜效果。另外还包含了其他基于离线GPU运行时的功能，比如硬件视频取帧等。
+
+特点：极致简洁
+
+- 一行代码实现功能
+
+- 260kb大小
+
+- 专为图片设计的极简滤镜运行时
+
+- 纯kotlin实现
+
+- 基于OpenGL ES3.0的可扩展滤镜接口与滤镜库
 
 
-Clover is an offline GPU runtime framework that can add various GPU filter effects to images, such as Gaussian blur and beauty. Clover is compatible with common image loading frameworks, including Glide, Picasso, and Fresco. Users can add GPU filter effects to images with just one line of code without changing the image loading usage. It also includes other functions based on offline GPU runtime, such as hardware video frame capture.
 
-Features: Easy to Use
+## 如何使用
 
-- One line of code to achieve the function
-
-- 260kb in size
-
-- filter runtime specifically designed for images
-
-- Pure Kotlin implementation
-
-- Extensible filter interface and filter library based on OpenGL ES3.0
-
-
-## How to Use
-
-### Step1
-**Gradle**
+### 步骤一
+**Gradle引入**
 ```groovy
 repositories {
     maven { url 'https://jitpack.io' }
@@ -31,20 +29,21 @@ dependencies {
     implementation 'com.github.KaelMa:Clover:1.0.2'
 }
 ```
-### Step2
-Clover supports common image loading frameworks, including Glide, Picasso, and Fresco, and also provides an interface for self-developed image loading frameworks. 
-Details are as follows:
+### 步骤二
+Clover支持常见的图片加载框架，包括`Glide`、`Picasso`与`Fresco`，也对自研图片加载框架提供了接口。
+
+具体如下：
 
 ####  Glide
 
 ```kotlin
-// One line code with Gaussian Blur Effect
+// 一行代码添加高斯模糊效果
 Glide.with(context)
     .load(imageUrl)
     .transform(GaussianBlurGlideTransform())
     .into(holder.image)
 
-// One line code with Frosted Glass Effect
+// 一行代码添加毛玻璃效果
 Glide.with(context)
 		.load(imageUrl)
 		.diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -55,7 +54,7 @@ Glide.with(context)
 #### Picasso
 
 ```kotlin
-// One line code with Gaussian Blur Effect
+// 一行代码添加高斯模糊效果
 Picasso.with(mContext)
     .load(R.drawable.demo)
     .transform(GaussianBlurPicassoTransform())
@@ -65,7 +64,7 @@ Picasso.with(mContext)
 #### Fresco
 
 ```kotlin
-// One line code with Gaussian Blur Effect
+// 高斯模糊效果
 val request = ImageRequestBuilder.newBuilderWithResourceId(imageUrl)
 	.setPostprocessor(GrayscaleFrescoTransform())
 	.build()
@@ -76,10 +75,10 @@ val controller = Fresco.newDraweeControllerBuilder()
 holder.image.controller = controller
 ```
 
-#### Self-developed Image Loading Framework
+#### 自研图片加载框架
 
 ```kotlin
-// It provides an inBitmap -> filter -> outBitmap interface, which requires the image framework to handle caching logic itself.
+// 提供了一个 inBitmap -> filter -> outBitmap 接口，需要图片框架自己处理缓存逻辑
 val outBitmap = Clover.with()
     .setImage(inBitmap)
     .setFilter(filter)
@@ -90,16 +89,16 @@ val outBitmap = Clover.with()
 
 ## Demo
 
-inner filters：
+内置滤镜：
 ![](md/clover-demo.gif)
 
 
-## Advanced
+## 高级
 
-### Cache
-Benefits to the capabilities of the image loading framework, users can set disk caching on demand.
+### 缓存
+得益于图片加载框架的能力，用户可以设置按需设置磁盘缓存。
 
-> Sample by Glide
+> 以下都以Glide为例，其他框架请参考Sample.
 
 ```
 Glide.with(context)
@@ -108,10 +107,10 @@ Glide.with(context)
     .transform(GaussianBlurGlideTransform(5f))
     .into(holder.image)
 ```
-If it is the same image and the radius of Gaussian blur is the same, it will not be generated repeatedly, and the result image in the disk cache will be used directly.
+如果是同一张图片，如果高斯模糊的半径一样，那么不会重复生成，会直接使用磁盘缓存的结果图。
 
-### Combination filters
-Support for self-combining filter effects
+### 组合
+支持自己组合滤镜效果
 ```
 Glide.with(context)
     .load(imageUrl)
@@ -122,28 +121,28 @@ Glide.with(context)
         ))
     .into(holder.image)
 ```
-The effect is to apply an grayscale filter and then a Box Blur filter.
-If performance optimization is required, it can inherit from GPUImageFilterGroup. However, for image rendering, this is usually not a problem. Download time is usually hundreds of times that of filter processing time (1000ms -> 5ms).
+其效果是先做灰度滤镜，然后再做Box Blur滤镜。
+如果需要性能最优，那么可以继承自GPUImageFilterGroup。不过对于图片渲染，这个一般不是问题。下载时间通常是滤镜处理时间的百倍 (1000ms -> 5ms)。
 
-### Filters
-All filters must implement the `BaseFilter` interface. 
-The runtime environment is an offline Pbuffer environment and is compatible with both GpuImage formats. 
-Currently, all built-in filters are ported from GpuImage and reimplemented using OpenGL ES3 and Kotlin. 
-The specific built-in filters are as follows:
+### 滤镜
+所有滤镜均要实现`BaseFilter`接口。
+运行环境是一个离线的Pbuffer环境，并兼容GpuImage接口形式。
+目前内置的滤镜均移植自GpuImage，使用OpenGL ES3与Kotlin重新实现。
+具体内置滤镜如下：
 
 **[内置滤镜列表](md/Filters.zh.md)**
 
-### Framework Diagram
+### 框架图
 
 ![](md/image-20200429-201923.png)
 
-### Flowchart
+### 流程图
 
 ![](md/image-20200421143708669.png)
 
 
-### How To Expand
-Implement `BaseFilter`interface，and extends `GlideBaseTransform`
+### 自由扩展
+实现 `BaseFilter`接口，并继承 `GlideBaseTransform`
 
 ```kotlin
 interface BaseFilter {
@@ -168,7 +167,7 @@ interface BaseFilter {
     fun destroy()
 }
 
-// sample by gaussian blur
+//以高斯模糊效果为例
 class GaussianBlurGlideTransform(var blurSize: Float = 2.0f):
     GlideBaseTransform(GPUImageGaussianBlurFilter(blurSize))
 {
@@ -186,18 +185,18 @@ class GaussianBlurGlideTransform(var blurSize: Float = 2.0f):
 }
 ```
 
-## Other Features
-**Capture Frame by Hardware**
+## 其他功能
+**硬件视频取帧**
 
-Based on MediaCodec and an offline GPU context, implemented with OpenGL, it offers 10 times the performance of the system's MediaMetadataRetriever.
+基于MediaCodec 与离线GPU上下文的OpenGL实现，性能是系统的MediaMetadataRetriever的十倍。
 
 ```kotlin
 object CloverUtil {
     /**
-     * Get Frame by MediaCodec + OpenGL
-     * @param videoPath video path
-     * @param timeUs timestamp
-     * @return bitmap 
+     * 使用mediaCodec + OpenGL取帧
+     * @param videoPath 视频路径
+     * @param timeUs 时间戳
+     * @return bitmap 视频抽帧
      */
     @Throws(ExecutionException::class, InterruptedException::class)
     fun getFrameAtTime(videoPath: String, timeUs: Long): Bitmap? {
@@ -206,6 +205,6 @@ object CloverUtil {
 }
 ```
 
-## Open Source License
+## 开源协议
 
 **MIT**
