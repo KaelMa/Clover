@@ -90,7 +90,8 @@ val outBitmap = Clover.with()
 
 ## Demo
 
-inner filters：
+### inner filters
+
 ![](md/clover-demo.gif)
 
 
@@ -131,7 +132,7 @@ The runtime environment is an offline Pbuffer environment and is compatible with
 Currently, all built-in filters are ported from GpuImage and reimplemented using OpenGL ES3 and Kotlin. 
 The specific built-in filters are as follows:
 
-**[内置滤镜列表](md/Filters.zh.md)**
+**[inner filters](md/Filters.zh.md)**
 
 ### Framework Diagram
 
