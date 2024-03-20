@@ -1,5 +1,7 @@
 # Clover
 
+> 实际上这是一个2019年开发的库，并于最近重新上传到Github
+
 Clover是一个离线GPU运行时框架，可以给图片添加各种GPU滤镜效果，像高斯模糊等。Clover适配了常见的图片加载框架，包括了Glide，Picasso，Fresco。用户可以在不改变图片加载用法的同时，仅仅增加一行代码即可给图片加上GPU滤镜效果。另外还包含了其他基于离线GPU运行时的功能，比如硬件视频取帧等。
 
 特点：极致简洁
@@ -26,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.KaelMa:Clover:1.0.2'
+    implementation 'com.github.KaelMa:Clover:1.0.3'
 }
 ```
 ### 步骤二

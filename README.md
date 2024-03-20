@@ -1,6 +1,7 @@
 # Clover
+ [中文文档](README.zh.md)
 
->  [中文文档](README.zh.md)
+> In fact, this is a library developed in 2019 and has been re-uploaded to Github in 2024.
 
 
 Clover is an offline GPU runtime framework that can add various GPU filter effects to images, such as Gaussian blur and beauty. Clover is compatible with common image loading frameworks, including Glide, Picasso, and Fresco. Users can add GPU filter effects to images with just one line of code without changing the image loading usage. It also includes other functions based on offline GPU runtime, such as hardware video frame capture.
@@ -28,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.KaelMa:Clover:1.0.2'
+    implementation 'com.github.KaelMa:Clover:1.0.3'
 }
 ```
 ### Step2
