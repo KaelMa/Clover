@@ -94,10 +94,6 @@ val outBitmap = Clover.with()
 内置滤镜：
 ![](md/clover-demo.gif)
 
-美颜：
-![](md/beauty-demo2.png)
-
-
 
 ## 高级
 
@@ -137,11 +133,6 @@ Glide.with(context)
 具体内置滤镜如下：
 
 **[内置滤镜列表](./Filters.md)**
-
-> 注意: 美颜滤镜能力依赖于AEKit SDK，需要用户额外接入AEkit：
-> http://aekitdoc.pages.oa.com/
-> https://git.code.oa.com/AEKit/AEKit-SDK-Dev
-> 如果不需要使用美颜能力，那么则不用接入
 
 ### 框架图
 
@@ -216,6 +207,6 @@ object CloverUtil {
 }
 ```
 
-## 联系
+## 开源协议
 
-如果问题，请直接提Issue，或企业微信联系Kaelma
+**MIT**

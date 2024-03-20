@@ -69,15 +69,3 @@
 | -------------------- | ------------------------------- |
 | SketchGlideTransform | 素描效果                        |
 | AeroGlideTransform   | 毛玻璃效果(白色蒙层 + 高斯模糊) |
-
-## 美颜
-
-需要依赖于AEKit:
-http://aekitdoc.pages.oa.com/
-https://git.code.oa.com/AEKit/AEKit-SDK-Dev
-
-| 滤镜                   | 用途                             |
-| ---------------------- | -------------------------------- |
-| AESmoothGlideTransform | 磨皮                             |
-| AEBeautyGlideTransform | 各种美颜能力，磨皮、美颜、形变等 |
-
